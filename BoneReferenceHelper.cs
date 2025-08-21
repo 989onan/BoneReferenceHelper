@@ -8,6 +8,7 @@ using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
+using System.Threading.Tasks;
 
 namespace BoneReferenceHelper
 {
@@ -15,7 +16,7 @@ namespace BoneReferenceHelper
     {
         public override string Name => "BoneReferenceHelper";
         public override string Author => "TheJebForge";
-        public override string Version => "2.0.1";
+        public override string Version => "2.0.2";
 
         public override void OnEngineInit()
         {
@@ -122,10 +123,10 @@ namespace BoneReferenceHelper
                 button.RunInSeconds(1f, () => button.LabelText = lastText);
             }
 
-            static void PasteBoneReferencesDirectly(SkinnedMeshRenderer instance, IButton button) {
+            static async Task PasteBoneReferencesDirectly(SkinnedMeshRenderer instance, IButton button) {
                 string lastText = button.LabelText;
 
-                string clipboard = instance.InputInterface.Clipboard.GetText().Trim();
+                string clipboard = (await instance.InputInterface.Clipboard.GetText()).Trim();
                 
                 if (clipboard.StartsWith("ID")) {
                     instance.Bones.Clear();
@@ -226,10 +227,10 @@ namespace BoneReferenceHelper
                 return countProcessed;
             }
 
-            static void PasteBoneReferencesBasedOnNames(SkinnedMeshRenderer instance, IButton button, bool meshBoneList) {
+            static async void PasteBoneReferencesBasedOnNames(SkinnedMeshRenderer instance, IButton button, bool meshBoneList) {
                 string lastText = button.LabelText;
                 
-                string clipboard = instance.InputInterface.Clipboard.GetText().Trim();
+                string clipboard = (await instance.InputInterface.Clipboard.GetText()).Trim();
 
                 Dictionary<string, RefID> boneReference = ParseStringToDictionary(clipboard);
 
